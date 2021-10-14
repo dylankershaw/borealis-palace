@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import moment from "moment";
 
 const API_URL = "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json";
+const THRESHOLD = 0; // TODO: change to 1; 0 is just for testing
 
 // Seattle coordinates
 const LONG = -122.3321;
@@ -12,7 +13,7 @@ fetch(API_URL)
     .then((resp) => {
         const coords = getCords360(LONG, LAT);
         const forecast = resp.coordinates.find((c) => c[0] === coords[0] && c[1] === coords[1])[2];
-        if (forecast >= 0) notify(forecast, resp["Forecast Time"]);
+        if (forecast >= THRESHOLD) notify(forecast, resp["Forecast Time"]);
     });
 
 /*
